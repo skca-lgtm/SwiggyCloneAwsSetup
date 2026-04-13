@@ -6,6 +6,7 @@ env:
     DOCKER_REGISTRY_PASSWORD: /cicd/docker-credentials/password
     DOCKER_REGISTRY_URL: /cicd/docker-registry/url
     SONAR_TOKEN: /cicd/sonar/sonar-token
+    NVD_API_KEY: /cicd/nvd/nvd-api-key
 phases:
   install:
     runtime-versions:
@@ -45,7 +46,7 @@ phases:
       - trivy image  "$DOCKER_REGISTRY_USERNAME/swiggy:latest" >> trivyimage.txt
       - echo "Running OWASP Dependency-Check scan..."
       - cd dependency-check/bin
-      - ./dependency-check.sh --scan . --format ALL 
+      - ./dependency-check.sh --scan . --nvdApiKey $NVD_API_KEY --format ALL 
       - echo "Build completed successfully!"
       - echo "Running SonarQube analysis result"
       - sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://13.206.121.25:9000
