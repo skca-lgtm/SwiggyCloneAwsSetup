@@ -30,7 +30,21 @@ steps:
       unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
       export PATH=$SONAR_SCANNER_HOME/bin:$PATH
       export SONAR_SCANNER_OPTS="-server"
+      ##########################################################################################################################################################################################
+      echo "Running tests..."
+      echo "Building Docker image..."
+      echo "$$DOCKER_REGISTRY_PASSWORD" | docker login -u "$$DOCKER_REGISTRY_USERNAME" --password-stdin "$$DOCKER_REGISTRY_URL"
+      docker build -t "$$DOCKER_REGISTRY_URL/$$DOCKER_REGISTRY_USERNAME/swiggy:latest" .
+      docker push "$$DOCKER_REGISTRY_URL/$$DOCKER_REGISTRY_USERNAME/swiggy:latest"
 
+availableSecrets:
+  secretManager:
+  - versionName: projects/196053730058/secrets/docker_password/versions/1
+    env: 'DOCKER_REGISTRY_PASSWORD'
+  - versionName: projects/196053730058/secrets/docker_username/versions/1
+    env: 'DOCKER_REGISTRY_USERNAME'
+  - versionName: projects/196053730058/secrets/docker_url/versions/1
+    env: 'DOCKER_REGISTRY_URL'
 
 #   # Run tests
 #   - name: 'node:18'
