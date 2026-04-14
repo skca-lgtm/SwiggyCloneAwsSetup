@@ -7,7 +7,7 @@ steps:
 
   # Run linting
   - name: 'bash'
-    script: 
+    script: |
     - echo "Installing dependencies..."
 
 #   # Run tests
