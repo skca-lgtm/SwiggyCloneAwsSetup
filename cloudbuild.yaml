@@ -11,6 +11,8 @@ steps:
       echo "Installing dependencies..."
       python3 --version
       java -version
+      apt-get install docker.io -y
+      usermod -a -G docker $USER
       docker version
       # apt-get update && apt-get install wget unzip -y
       # echo "Performing Trivy file scan before building the image..."
