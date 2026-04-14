@@ -10,10 +10,7 @@ steps:
     script: |
       echo "Installing dependencies..."
       apt-get update && apt-get install wget unzip curl -y
-      apt-get update && apt-get install python3.12 -y
-      wget -O - https://apt.corretto.aws/corretto.key | gpg --dearmor -o /usr/share/keyrings/corretto-keyring.gpg &&
-      echo "deb [signed-by=/usr/share/keyrings/corretto-keyring.gpg] https://apt.corretto.aws stable main" | tee /etc/apt/sources.list.d/corretto.list
-      apt-get update && apt-get install -y java-17-amazon-corretto-jdk
+      apt-get update && apt-get install python3.12 java-common -y
       echo "Performing Trivy file scan before building the image..."
       wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
       tar zxvf trivy_0.19.2_Linux-64bit.tar.gz
