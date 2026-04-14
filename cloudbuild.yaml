@@ -10,23 +10,22 @@ steps:
     script: |
       echo "Installing dependencies..."
       python3 --version
-      # apt-get update && apt-get install dialog apt-utils -y
-      apt-get update && apt-get install wget unzip -y
-      # apt-get update && apt-get install python3.12 java-common -y
-      echo "Performing Trivy file scan before building the image..."
-      wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
-      tar zxvf trivy_0.19.2_Linux-64bit.tar.gz
-      export PATH=$PATH:$PWD
-      trivy filesystem --exit-code 0 --no-progress . >> trivyfilescan.txt
-      echo "Downloading and installing OWASP Dependency-Check..."
-      wget https://github.com/dependency-check/DependencyCheck/releases/download/v12.1.0/dependency-check-12.1.0-release.zip
-      unzip dependency-check-12.1.0-release.zip
-      export SONAR_SCANNER_VERSION=4.7.0.2747
-      export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
-      curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
-      unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
-      export PATH=$SONAR_SCANNER_HOME/bin:$PATH
-      export SONAR_SCANNER_OPTS="-server"
+      java -version
+      # apt-get update && apt-get install wget unzip -y
+      # echo "Performing Trivy file scan before building the image..."
+      # wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
+      # tar zxvf trivy_0.19.2_Linux-64bit.tar.gz
+      # export PATH=$PATH:$PWD
+      # trivy filesystem --exit-code 0 --no-progress . >> trivyfilescan.txt
+      # echo "Downloading and installing OWASP Dependency-Check..."
+      # wget https://github.com/dependency-check/DependencyCheck/releases/download/v12.1.0/dependency-check-12.1.0-release.zip
+      # unzip dependency-check-12.1.0-release.zip
+      # export SONAR_SCANNER_VERSION=4.7.0.2747
+      # export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+      # curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
+      # unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+      # export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+      # export SONAR_SCANNER_OPTS="-server"
 
 
 #   # Run tests
