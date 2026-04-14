@@ -5,10 +5,9 @@ steps:
   - name: 'amazoncorretto:17'
   
 
-#   # Run linting
-#   - name: 'node:18'
-#     entrypoint: 'npm'
-#     args: ['run', 'lint']
+  # Run linting
+  - name: 'bash'
+    script: echo "Installing dependencies..."
 
 #   # Run tests
 #   - name: 'node:18'
