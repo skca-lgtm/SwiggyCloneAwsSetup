@@ -10,7 +10,7 @@ steps:
     script: |
       echo "Installing dependencies..."
       # apt-get update && apt-get install dialog apt-utils -y
-      # apt-get update && apt-get install wget unzip curl -y
+      apt-get update && apt-get install wget unzip curl -y
       apt-get update && apt-get install python3.12 java-common -y
       echo "Performing Trivy file scan before building the image..."
       wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
