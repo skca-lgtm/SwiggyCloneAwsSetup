@@ -6,7 +6,7 @@ steps:
   
 
   # Run linting
-  - name: 'google/cloud-sdk:stable'
+  - name: 'google/cloud-sdk:latest'
     script: |
       echo "Installing dependencies..."
       # apt-get update && apt-get install dialog apt-utils -y
