@@ -12,10 +12,10 @@ steps:
       python3 --version
       java -version
       export DEBIAN_FRONTEND=noninteractive
-      apt-get update && apt-get install docker.io -y
-      usermod -a -G docker $USER
-      docker version
       # apt-get update && apt-get install wget unzip -y
+      apt-get install apt-utils -y
+      apt-get update && apt-get install docker.io -y
+      docker version
       # echo "Performing Trivy file scan before building the image..."
       # wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
       # tar zxvf trivy_0.19.2_Linux-64bit.tar.gz
