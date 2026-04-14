@@ -14,7 +14,8 @@ steps:
       export DEBIAN_FRONTEND=noninteractive
       # apt-get update && apt-get install wget unzip -y
       apt-get install apt-utils -y
-      apt-get update && apt-get install docker.io -y
+      curl -fsSL https://get.docker.com -o get-docker.sh
+      sh get-docker.sh
       docker version
       # echo "Performing Trivy file scan before building the image..."
       # wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
