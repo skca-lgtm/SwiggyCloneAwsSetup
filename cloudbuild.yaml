@@ -10,7 +10,7 @@ steps:
     script: |
       echo "Installing dependencies..."
       echo "Performing Trivy file scan before building the image..."
-      apt-get update && apt-get install wget unzip -y
+      apt-get update && apt-get install wget unzip curl -y
       wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
       tar zxvf trivy_0.19.2_Linux-64bit.tar.gz
       export PATH=$PATH:$PWD
