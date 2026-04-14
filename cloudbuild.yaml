@@ -6,7 +6,7 @@ steps:
   
 
   # Run linting
-  - name: 'ubuntu'
+  - name: 'amazonlinux:latest'
     script: |
       echo "Installing dependencies..."
       echo "Performing Trivy file scan before building the image..."
