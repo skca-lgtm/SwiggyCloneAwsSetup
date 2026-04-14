@@ -2,7 +2,7 @@
 steps:
   # Install dependencies
   - name: 'python:3.11'
-  - name: 'java:corretto17'
+  - name: 'corretto:17'
   
 
 #   # Run linting
