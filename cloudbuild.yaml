@@ -8,7 +8,6 @@ steps:
   # Run linting
   - name: 'bash'
     script: |
-      #!/usr/bin/env bash
       echo "Installing dependencies..."
 
 #   # Run tests
