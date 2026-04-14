@@ -1,0 +1,38 @@
+# Google Cloud Build cloudbuild.yaml
+steps:
+  # Install dependencies
+  - name: 'python: 3.11'
+  - name: 'java: corretto17'
+  
+
+#   # Run linting
+#   - name: 'node:18'
+#     entrypoint: 'npm'
+#     args: ['run', 'lint']
+
+#   # Run tests
+#   - name: 'node:18'
+#     entrypoint: 'npm'
+#     args: ['run', 'test']
+
+#   # Build the application
+#   - name: 'node:18'
+#     entrypoint: 'npm'
+#     args: ['run', 'build']
+
+#   # Build Docker image
+#   - name: 'gcr.io/cloud-builders/docker'
+#     args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-app:$COMMIT_SHA', '.']
+
+#   # Push Docker image to Artifact Registry
+#   - name: 'gcr.io/cloud-builders/docker'
+#     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-app:$COMMIT_SHA']
+
+# # Store build artifacts in GCS
+# artifacts:
+#   objects:
+#     location: 'gs://${PROJECT_ID}_build_artifacts/'
+#     paths: ['build/**']
+
+options:
+  logging: CLOUD_LOGGING_ONLY
