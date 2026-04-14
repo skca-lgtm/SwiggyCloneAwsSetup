@@ -11,7 +11,7 @@ steps:
       echo "Installing dependencies..."
       python3 --version
       java -version
-      DEBIAN_FRONTEND=noninteractive apt-get install docker.io -y
+      apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install docker.io -y
       usermod -a -G docker $USER
       docker version
       # apt-get update && apt-get install wget unzip -y
