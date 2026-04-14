@@ -7,7 +7,9 @@ steps:
 
   # Run linting
   - name: 'bash'
-    script: echo "Installing dependencies..."
+    script: |
+      #!/usr/bin/env bash
+      echo "Installing dependencies..."
 
 #   # Run tests
 #   - name: 'node:18'
