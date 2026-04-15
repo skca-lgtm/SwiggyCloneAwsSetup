@@ -7,7 +7,7 @@ steps:
 
   # Run linting
   - name: 'google/cloud-sdk:latest'
-    secretEnv: ['DOCKER_REGISTRY_USERNAME','DOCKER_REGISTRY_PASSWORD','DOCKER_REGISTRY_URL']
+    secretEnv: ['DOCKER_REGISTRY_USERNAME','DOCKER_REGISTRY_PASSWORD','DOCKER_REGISTRY_URL','SONAR_TOKEN','NVD_API_KEY']
     script: |
       echo "Installing dependencies..."
       python3 --version
@@ -37,6 +37,15 @@ steps:
       echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
       docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/swiggy:latest" .
       docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/swiggy:latest"
+      ##########################################################################################################################################################################################
+      echo "Performing Trivy image scan after building the image..." 
+      trivy image  "$DOCKER_REGISTRY_USERNAME/swiggy:latest" >> trivyimage.txt
+      echo "Running OWASP Dependency-Check scan..."
+      cd dependency-check/bin
+      ./dependency-check.sh --scan . --nvdApiKey $NVD_API_KEY --format ALL 
+      echo "Build completed successfully!"
+      echo "Running SonarQube analysis result"
+      sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://34.14.213.131:9000
 
 availableSecrets:
   secretManager:
@@ -46,30 +55,10 @@ availableSecrets:
     env: 'DOCKER_REGISTRY_USERNAME'
   - versionName: projects/196053730058/secrets/docker_url/versions/1
     env: 'DOCKER_REGISTRY_URL'
-
-#   # Run tests
-#   - name: 'node:18'
-#     entrypoint: 'npm'
-#     args: ['run', 'test']
-
-#   # Build the application
-#   - name: 'node:18'
-#     entrypoint: 'npm'
-#     args: ['run', 'build']
-
-#   # Build Docker image
-#   - name: 'gcr.io/cloud-builders/docker'
-#     args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-app:$COMMIT_SHA', '.']
-
-#   # Push Docker image to Artifact Registry
-#   - name: 'gcr.io/cloud-builders/docker'
-#     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-app:$COMMIT_SHA']
-
-# # Store build artifacts in GCS
-# artifacts:
-#   objects:
-#     location: 'gs://${PROJECT_ID}_build_artifacts/'
-#     paths: ['build/**']
+  - versionName: projects/196053730058/secrets/sonarqube_token/versions/1
+    env: 'SONAR_TOKEN'  
+  - versionName: projects/196053730058/secrets/nvd_api/versions/1
+    env: 'NVD_API_KEY'
 
 options:
   logging: CLOUD_LOGGING_ONLY
