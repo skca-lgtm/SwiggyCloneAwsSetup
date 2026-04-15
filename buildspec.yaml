@@ -49,7 +49,7 @@ phases:
       - ./dependency-check.sh --scan . --nvdApiKey $NVD_API_KEY --format ALL 
       - echo "Build completed successfully!"
       - echo "Running SonarQube analysis result"
-      - sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://13.233.184.34:9000
+      - sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://3.111.187.70:9000
       #- aws ses send-email --from "madithati123@gmail.com" --to "madithatisreedhar123@gmail.com" --subject "CodeBuild Status: $CODEBUILD_BUILD_ID" --text "Build status: $CODEBUILD_BUILD_STATUS" --region "ap-south-1" 
       # Update with your preferred AWS region
 
