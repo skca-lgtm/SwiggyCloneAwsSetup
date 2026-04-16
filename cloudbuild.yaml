@@ -32,8 +32,8 @@ steps:
       export PATH=$SONAR_SCANNER_HOME/bin:$PATH
       export SONAR_SCANNER_OPTS="-server"
       ##########################################################################################################################################################################################
-      docker build -t "asia-south1-docker.pkg.dev/${PROJECT_ID}/cicdrepository16042026/swiggy:latest" .
-      docker push "asia-south1-docker.pkg.dev/${PROJECT_ID}/cicdrepository16042026/swiggy:latest"
+      docker build -t "asia-south1-docker.pkg.dev/$PROJECT_ID/cicdrepository16042026/swiggy:latest" .
+      docker push "asia-south1-docker.pkg.dev/$PROJECT_ID/cicdrepository16042026/swiggy:latest"
       ##########################################################################################################################################################################################
       # echo "Performing Trivy image scan after building the image..." 
       # trivy image  "$DOCKER_REGISTRY_USERNAME/swiggy:latest" >> trivyimage.txt
