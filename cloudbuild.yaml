@@ -36,9 +36,9 @@ steps:
       echo "Building Docker image..."
       gcloud auth configure-docker asia-south1-docker.pkg.dev
       # echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-      docker build -t "asia-south1-docker.pkg.dev/internal-sandbox-446612/cicdrepository16042026" .
+      docker build -t "asia-south1-docker.pkg.dev/internal-sandbox-446612/cicdrepository16042026/swiggy" .
       # docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/swiggy:latest"
-      docker push "asia-south1-docker.pkg.dev/internal-sandbox-446612/cicdrepository16042026"
+      docker push "asia-south1-docker.pkg.dev/internal-sandbox-446612/cicdrepository16042026/swiggy:latest"
       ##########################################################################################################################################################################################
       # echo "Performing Trivy image scan after building the image..." 
       # trivy image  "$DOCKER_REGISTRY_USERNAME/swiggy:latest" >> trivyimage.txt
