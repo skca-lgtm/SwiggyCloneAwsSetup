@@ -34,9 +34,9 @@ steps:
       ##########################################################################################################################################################################################
       echo "Running tests..."
       echo "Building Docker image..."
-      echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-      docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/swiggy:latest" .
-      docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/swiggy:latest"
+      # echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
+      docker build -t "asia-south1-docker.pkg.dev/internal-sandbox-446612/cicdrepository16042026" .
+      # docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/swiggy:latest"
       gcloud auth configure-docker asia-south1-docker.pkg.dev
       docker push "asia-south1-docker.pkg.dev/internal-sandbox-446612/cicdrepository16042026"
       ##########################################################################################################################################################################################
