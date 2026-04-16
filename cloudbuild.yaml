@@ -32,6 +32,7 @@ steps:
       export PATH=$SONAR_SCANNER_HOME/bin:$PATH
       export SONAR_SCANNER_OPTS="-server"
       ##########################################################################################################################################################################################
+      echo "Building Docker image and pushing to artifact registry..."
       docker build -t "asia-south1-docker.pkg.dev/$PROJECT_ID/cicdrepository16042026/swiggy:latest" .
       docker push "asia-south1-docker.pkg.dev/$PROJECT_ID/cicdrepository16042026/swiggy:latest"
       ##########################################################################################################################################################################################
@@ -43,8 +44,8 @@ steps:
       ./dependency-check.sh --scan . --nvdApiKey $NVD_API_KEY --format ALL 
       echo "Build completed successfully!"
       echo "Running SonarQube analysis result"
-      sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://34.14.213.131:9000
-
+      sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://34.93.103.177:9000
+      
 availableSecrets:
   secretManager:
   - versionName: projects/196053730058/secrets/docker_password/versions/1
@@ -53,7 +54,7 @@ availableSecrets:
     env: 'DOCKER_REGISTRY_USERNAME'
   - versionName: projects/196053730058/secrets/docker_url/versions/1
     env: 'DOCKER_REGISTRY_URL'
-  - versionName: projects/196053730058/secrets/sonarqube_token/versions/1
+  - versionName: projects/196053730058/secrets/sonarqube_token/versions/2
     env: 'SONAR_TOKEN'  
   - versionName: projects/196053730058/secrets/nvd_api/versions/1
     env: 'NVD_API_KEY'
