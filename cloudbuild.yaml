@@ -32,8 +32,9 @@ steps:
       export PATH=$SONAR_SCANNER_HOME/bin:$PATH
       export SONAR_SCANNER_OPTS="-server"
       ##########################################################################################################################################################################################
-      echo "Running tests..."
-      echo "Building Docker image..."
+
+      docker build -t "us-central1-docker.pkg.dev/${PROJECT_ID}/my-docker-repo/swiggy:latest" .
+      docker push "us-central1-docker.pkg.dev/${PROJECT_ID}/my-docker-repo/swiggy:latest"
       ##########################################################################################################################################################################################
       # echo "Performing Trivy image scan after building the image..." 
       # trivy image  "$DOCKER_REGISTRY_USERNAME/swiggy:latest" >> trivyimage.txt
@@ -56,6 +57,8 @@ availableSecrets:
     env: 'SONAR_TOKEN'  
   - versionName: projects/196053730058/secrets/nvd_api/versions/1
     env: 'NVD_API_KEY'
+  - versionName: projects/196053730058/secrets/projectID/versions/1
+    env: 'PROJECT_ID'
 
 options:
   logging: CLOUD_LOGGING_ONLY
