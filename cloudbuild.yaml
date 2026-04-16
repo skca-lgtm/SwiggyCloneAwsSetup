@@ -6,17 +6,17 @@ steps:
   
 
   # Run linting
-  # - name: 'google/cloud-sdk:latest'
-  #   secretEnv: ['DOCKER_REGISTRY_USERNAME','DOCKER_REGISTRY_PASSWORD','DOCKER_REGISTRY_URL','SONAR_TOKEN','NVD_API_KEY']
-  #   script: |
-  #     echo "Installing dependencies..."
-  #     python3 --version
-  #     java -version
-  #     export DEBIAN_FRONTEND=noninteractive
-  #     apt-get install wget unzip -y
-  #     curl -fsSL https://get.docker.com -o get-docker.sh
-  #     sh get-docker.sh
-  #     docker version
+  - name: 'google/cloud-sdk:latest'
+    secretEnv: ['DOCKER_REGISTRY_USERNAME','DOCKER_REGISTRY_PASSWORD','DOCKER_REGISTRY_URL','SONAR_TOKEN','NVD_API_KEY']
+    script: |
+      echo "Installing dependencies..."
+      python3 --version
+      java -version
+      export DEBIAN_FRONTEND=noninteractive
+      apt-get install wget unzip -y
+      curl -fsSL https://get.docker.com -o get-docker.sh
+      sh get-docker.sh
+      docker version
   #     echo "Performing Trivy file scan before building the image..."
   #     wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
   #     tar zxvf trivy_0.19.2_Linux-64bit.tar.gz
@@ -32,11 +32,11 @@ steps:
   #     export PATH=$SONAR_SCANNER_HOME/bin:$PATH
   #     export SONAR_SCANNER_OPTS="-server"
   #     ##########################################################################################################################################################################################
-  #     echo "Running tests..."
-  #     echo "Building Docker image..."
-  #     echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-  #     docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/swiggy:latest" .
-  #     docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/swiggy:latest"
+      echo "Running tests..."
+      echo "Building Docker image..."
+      # echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
+      docker build -t "$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME" .
+      docker push "$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME:latest"
   #     ##########################################################################################################################################################################################
   #     echo "Performing Trivy image scan after building the image..." 
   #     trivy image  "$DOCKER_REGISTRY_USERNAME/swiggy:latest" >> trivyimage.txt
@@ -47,16 +47,16 @@ steps:
   #     echo "Running SonarQube analysis result"
   #     sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://34.14.213.131:9000
 # steps:
-  - name: gcr.io/cloud-builders/docker
-    script: build --no-cache -t $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA .
-  - name: gcr.io/cloud-builders/docker
-    script: push $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
-  - name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
-    script: gcloud run services update $_SERVICE_NAME --platform=managed --image=$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID --region=$_DEPLOY_REGION --quiet
-    # entrypoint: gcloud
-images:
-  - >-
-    $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+#   - name: gcr.io/cloud-builders/docker
+#     script: build --no-cache -t $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA .
+#   - name: gcr.io/cloud-builders/docker
+#     script: push $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+#   - name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+#     script: gcloud run services update $_SERVICE_NAME --platform=managed --image=$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID --region=$_DEPLOY_REGION --quiet
+#     # entrypoint: gcloud
+# images:
+#   - >-
+#     $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
 options:
   substitutionOption: ALLOW_LOOSE
   logging: CLOUD_LOGGING_ONLY
