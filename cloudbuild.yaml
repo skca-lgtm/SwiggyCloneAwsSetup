@@ -17,75 +17,48 @@ steps:
       curl -fsSL https://get.docker.com -o get-docker.sh
       sh get-docker.sh
       docker version
-  #     echo "Performing Trivy file scan before building the image..."
-  #     wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
-  #     tar zxvf trivy_0.19.2_Linux-64bit.tar.gz
-  #     export PATH=$PATH:$PWD
-  #     trivy filesystem --exit-code 0 --no-progress . >> trivyfilescan.txt
-  #     echo "Downloading and installing OWASP Dependency-Check..."
-  #     wget https://github.com/dependency-check/DependencyCheck/releases/download/v12.1.0/dependency-check-12.1.0-release.zip
-  #     unzip dependency-check-12.1.0-release.zip
-  #     export SONAR_SCANNER_VERSION=4.7.0.2747
-  #     export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
-  #     curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
-  #     unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
-  #     export PATH=$SONAR_SCANNER_HOME/bin:$PATH
-  #     export SONAR_SCANNER_OPTS="-server"
-  #     ##########################################################################################################################################################################################
+      echo "Performing Trivy file scan before building the image..."
+      wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
+      tar zxvf trivy_0.19.2_Linux-64bit.tar.gz
+      export PATH=$PATH:$PWD
+      trivy filesystem --exit-code 0 --no-progress . >> trivyfilescan.txt
+      echo "Downloading and installing OWASP Dependency-Check..."
+      wget https://github.com/dependency-check/DependencyCheck/releases/download/v12.1.0/dependency-check-12.1.0-release.zip
+      unzip dependency-check-12.1.0-release.zip
+      export SONAR_SCANNER_VERSION=4.7.0.2747
+      export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+      curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
+      unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+      export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+      export SONAR_SCANNER_OPTS="-server"
+      ##########################################################################################################################################################################################
       echo "Running tests..."
       echo "Building Docker image..."
-      # echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-      docker build -t "$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME" .
-      docker push "$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME:latest"
-  #     ##########################################################################################################################################################################################
-  #     echo "Performing Trivy image scan after building the image..." 
-  #     trivy image  "$DOCKER_REGISTRY_USERNAME/swiggy:latest" >> trivyimage.txt
-  #     echo "Running OWASP Dependency-Check scan..."
-  #     cd dependency-check/bin
-  #     ./dependency-check.sh --scan . --nvdApiKey $NVD_API_KEY --format ALL 
-  #     echo "Build completed successfully!"
-  #     echo "Running SonarQube analysis result"
-  #     sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://34.14.213.131:9000
-# steps:
-#   - name: gcr.io/cloud-builders/docker
-#     script: build --no-cache -t $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA .
-#   - name: gcr.io/cloud-builders/docker
-#     script: push $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
-#   - name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
-#     script: gcloud run services update $_SERVICE_NAME --platform=managed --image=$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID --region=$_DEPLOY_REGION --quiet
-#     # entrypoint: gcloud
-# images:
-#   - >-
-#     $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+      echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
+      docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/swiggy:latest" .
+      docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/swiggy:latest"
+      ##########################################################################################################################################################################################
+      # echo "Performing Trivy image scan after building the image..." 
+      # trivy image  "$DOCKER_REGISTRY_USERNAME/swiggy:latest" >> trivyimage.txt
+      # echo "Running OWASP Dependency-Check scan..."
+      # cd dependency-check/bin
+      # ./dependency-check.sh --scan . --nvdApiKey $NVD_API_KEY --format ALL 
+      # echo "Build completed successfully!"
+      # echo "Running SonarQube analysis result"
+      # sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://34.14.213.131:9000
+
+availableSecrets:
+  secretManager:
+  - versionName: projects/196053730058/secrets/docker_password/versions/1
+    env: 'DOCKER_REGISTRY_PASSWORD'
+  - versionName: projects/196053730058/secrets/docker_username/versions/1
+    env: 'DOCKER_REGISTRY_USERNAME'
+  - versionName: projects/196053730058/secrets/docker_url/versions/1
+    env: 'DOCKER_REGISTRY_URL'
+  - versionName: projects/196053730058/secrets/sonarqube_token/versions/1
+    env: 'SONAR_TOKEN'  
+  - versionName: projects/196053730058/secrets/nvd_api/versions/1
+    env: 'NVD_API_KEY'
+
 options:
-  substitutionOption: ALLOW_LOOSE
   logging: CLOUD_LOGGING_ONLY
-substitutions:
-  _DEPLOY_REGION: asia-south1
-  _AR_HOSTNAME: asia-south1-docker.pkg.dev
-  _AR_REPOSITORY: cloud-run-source-deploy
-  _AR_PROJECT_ID: internal-sandbox-446612
-  _PLATFORM: managed
-  _TRIGGER_ID: 9a78dd7d-ee79-4583-a704-c9fb0020a334
-  _SERVICE_NAME: swiggyclonegcpsetup16042026
-  REPO_NAME: swiggycloneawssetup
-tags:
-  - gcp-cloud-build-deploy-cloud-run
-  - gcp-cloud-build-deploy-cloud-run-managed
-  - swiggyclonegcpsetup16042026
-
-# availableSecrets:
-#   secretManager:
-#   - versionName: projects/196053730058/secrets/docker_password/versions/1
-#     env: 'DOCKER_REGISTRY_PASSWORD'
-#   - versionName: projects/196053730058/secrets/docker_username/versions/1
-#     env: 'DOCKER_REGISTRY_USERNAME'
-#   - versionName: projects/196053730058/secrets/docker_url/versions/1
-#     env: 'DOCKER_REGISTRY_URL'
-#   - versionName: projects/196053730058/secrets/sonarqube_token/versions/1
-#     env: 'SONAR_TOKEN'  
-#   - versionName: projects/196053730058/secrets/nvd_api/versions/1
-#     env: 'NVD_API_KEY'
-
-# options:
-#   logging: CLOUD_LOGGING_ONLY
