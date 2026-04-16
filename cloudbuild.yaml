@@ -7,7 +7,7 @@ steps:
 
   # Run linting
   - name: 'google/cloud-sdk:latest'
-    secretEnv: ['DOCKER_REGISTRY_USERNAME','DOCKER_REGISTRY_PASSWORD','DOCKER_REGISTRY_URL','SONAR_TOKEN','NVD_API_KEY']
+    secretEnv: ['DOCKER_REGISTRY_USERNAME','DOCKER_REGISTRY_PASSWORD','DOCKER_REGISTRY_URL','SONAR_TOKEN','NVD_API_KEY','PROJECT_ID']
     script: |
       echo "Installing dependencies..."
       python3 --version
