@@ -44,7 +44,7 @@ steps:
       ./dependency-check.sh --scan . --nvdApiKey $NVD_API_KEY --format ALL 
       echo "Build completed successfully!"
       echo "Running SonarQube analysis result"
-      sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://34.93.103.177:9000
+      sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://34.47.217.174:9000
       
 availableSecrets:
   secretManager:
