@@ -38,7 +38,7 @@ steps:
       ##########################################################################################################################################################################################
       echo "Performing Trivy image scan after building the image..." 
       trivy image  "asia-south1-docker.pkg.dev/$PROJECT_ID/cicdrepository17042026/swiggy:latest" >> trivyimage.txt
-      cat trivyimage.txt
+      # cat trivyimage.txt
       echo "Running OWASP Dependency-Check scan..."
       cd dependency-check/bin
       ./dependency-check.sh --scan . --format ALL 
