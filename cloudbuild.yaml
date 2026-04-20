@@ -48,12 +48,6 @@ steps:
       
 availableSecrets:
   secretManager:
-  # - versionName: projects/196053730058/secrets/docker_password/versions/1
-  #   env: 'DOCKER_REGISTRY_PASSWORD'
-  # - versionName: projects/196053730058/secrets/docker_username/versions/1
-  #   env: 'DOCKER_REGISTRY_USERNAME'
-  # - versionName: projects/196053730058/secrets/docker_url/versions/1
-  #   env: 'DOCKER_REGISTRY_URL'
   - versionName: projects/196053730058/secrets/sonarqube_token/versions/1
     env: 'SONAR_TOKEN'  
   - versionName: projects/196053730058/secrets/nvd_api/versions/1
