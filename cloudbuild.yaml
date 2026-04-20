@@ -37,7 +37,7 @@ steps:
       docker push "asia-south1-docker.pkg.dev/$PROJECT_ID/cicdrepository17042026/swiggy:latest"
       ##########################################################################################################################################################################################
       echo "Performing Trivy image scan after building the image..." 
-      trivy image  "asia-south1-docker.pkg.dev/$PROJECT_ID/cicdrepository170420266/swiggy:latest" >> trivyimage.txt
+      trivy image  "asia-south1-docker.pkg.dev/$PROJECT_ID/cicdrepository17042026/swiggy:latest" >> trivyimage.txt
       cat trivyimage.txt
       echo "Running OWASP Dependency-Check scan..."
       cd dependency-check/bin
