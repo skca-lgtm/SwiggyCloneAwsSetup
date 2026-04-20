@@ -7,7 +7,7 @@ steps:
 
   # Run linting
   - name: 'google/cloud-sdk:latest'
-    secretEnv: ['SONAR_TOKEN','PROJECT_ID']
+    secretEnv: ['SONAR_TOKEN','PROJECT_ID','NVD_API_KEY']
     script: |
       echo "Installing dependencies..."
       python3 --version
@@ -41,7 +41,7 @@ steps:
       # cat trivyimage.txt
       echo "Running OWASP Dependency-Check scan..."
       cd dependency-check/bin
-      ./dependency-check.sh --scan . --format ALL 
+      ./dependency-check.sh --scan . --nvdApiKey $NVD_API_KEY --format ALL 
       echo "Build completed successfully!"
       echo "Running SonarQube analysis result"
       sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://35.200.155.10:9000
@@ -50,8 +50,8 @@ availableSecrets:
   secretManager:
   - versionName: projects/196053730058/secrets/sonarqube_token/versions/1
     env: 'SONAR_TOKEN'  
-  # - versionName: projects/196053730058/secrets/nvd_api/versions/1
-  #   env: 'NVD_API_KEY'
+  - versionName: projects/196053730058/secrets/nvd_api/versions/1
+    env: 'NVD_API_KEY'
   - versionName: projects/196053730058/secrets/projectID/versions/1
     env: 'PROJECT_ID'
 
