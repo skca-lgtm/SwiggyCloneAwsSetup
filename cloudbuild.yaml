@@ -6,14 +6,12 @@ steps:
   
 
   # Run linting
-  - name: 'ubuntu:latest'
+  - name: 'google/cloud-sdk:latest'
     secretEnv: ['SONAR_TOKEN','PROJECT_ID','NVD_API_KEY']
     script: |
       echo "Installing dependencies..."
-      apt install python3 -y
       python3 --version
       apt install openjdk-17-jdk -y
-      java -version
       export DEBIAN_FRONTEND=noninteractive
       apt-get install wget unzip -y
       curl -fsSL https://get.docker.com -o get-docker.sh
