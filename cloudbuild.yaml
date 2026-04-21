@@ -41,7 +41,7 @@ steps:
       # cat trivyimage.txt
       echo "Running OWASP Dependency-Check scan..."
       cd dependency-check/bin
-      sh dependency-check.sh -s . --nvdApiKey $NVD_API_KEY --format ALL
+      sh dependency-check.sh -s . --nvdApiKey $NVD_API_KEY --noupdate
       echo "Build completed successfully!"
       echo "Running SonarQube analysis result"
       sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://35.200.155.10:9000
