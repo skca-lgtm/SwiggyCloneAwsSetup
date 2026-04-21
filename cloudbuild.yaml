@@ -42,7 +42,7 @@ steps:
       unzip dependency-check-12.2.1-release.zip
       cd dependency-check
       cd bin
-      sh dependency-check.sh -s . --noupdate
+      sh dependency-check.sh -s . --nvdApiKey $NVD_API_KEY ----format ALL
       echo "Build completed successfully!"
       echo "Running SonarQube analysis result"
       sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://35.200.155.10:9000
