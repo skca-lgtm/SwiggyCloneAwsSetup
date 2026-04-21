@@ -40,7 +40,8 @@ steps:
       echo "Running OWASP Dependency-Check scan..."
       wget https://github.com/dependency-check/DependencyCheck/releases/download/v12.2.1/dependency-check-12.2.1-release.zip
       unzip dependency-check-12.2.1-release.zip
-      cd dependency-check/bin
+      cd dependency-check
+      cd bin
       sh dependency-check.sh -s . --noupdate
       echo "Build completed successfully!"
       echo "Running SonarQube analysis result"
